@@ -95,12 +95,12 @@ class Application extends Model
     public function getStatusLabelAttribute()
     {
         return match($this->status) {
-            'en_attente' => 'En attente',
-            'en_cours' => 'En cours',
-            'entretien_planifie' => 'Entretien planifié',
-            'offre_recue' => 'Offre reçue',
-            'refusee' => 'Refusée',
-            'acceptee' => 'Acceptée',
+            'en_attente' => 'Pending',
+            'en_cours' => 'In Progress',
+            'entretien_planifie' => 'Interview Scheduled',
+            'offre_recue' => 'Offer Received',
+            'refusee' => 'Rejected',
+            'acceptee' => 'Accepted',
             default => $this->status,
         };
     }
@@ -115,10 +115,10 @@ class Application extends Model
     public function getPriorityLabelAttribute()
     {
         return match($this->priority) {
-            'basse' => 'Basse',
-            'moyenne' => 'Moyenne',
-            'haute' => 'Haute',
-            'urgente' => 'Urgente',
+            'basse' => 'Low',
+            'moyenne' => 'Medium',
+            'haute' => 'High',
+            'urgente' => 'Urgent',
             default => $this->priority,
         };
     }
@@ -264,12 +264,12 @@ class Application extends Model
     public static function getStatusOptions()
     {
         return [
-            'en_attente' => 'En attente',
-            'en_cours' => 'En cours',
-            'entretien_planifie' => 'Entretien planifié',
-            'offre_recue' => 'Offre reçue',
-            'refusee' => 'Refusée',
-            'acceptee' => 'Acceptée',
+            'en_attente' => 'Pending',
+            'en_cours' => 'In Progress',
+            'entretien_planifie' => 'Interview Scheduled',
+            'offre_recue' => 'Offer Received',
+            'refusee' => 'Rejected',
+            'acceptee' => 'Accepted',
         ];
     }
 
@@ -281,10 +281,10 @@ class Application extends Model
     public static function getPriorityOptions()
     {
         return [
-            'basse' => 'Basse',
-            'moyenne' => 'Moyenne',
-            'haute' => 'Haute',
-            'urgente' => 'Urgente',
+            'basse' => 'Low',
+            'moyenne' => 'Medium',
+            'haute' => 'High',
+            'urgente' => 'Urgent',
         ];
     }
 }

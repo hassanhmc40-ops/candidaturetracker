@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 'local'),
+    'default' => env('FILESYSTEM_DISK', 'private'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,8 +34,15 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/private'),
             'serve' => true,
-            'throw' => false,
-            'report' => false,
+            'throw' => env('APP_ENV') === 'local',
+            'report' => true,
+        ],
+
+        'private' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private'),
+            'throw' => env('APP_ENV') === 'local',
+            'report' => true,
         ],
 
         'public' => [
@@ -43,8 +50,8 @@ return [
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
-            'throw' => false,
-            'report' => false,
+            'throw' => env('APP_ENV') === 'local',
+            'report' => true,
         ],
 
         's3' => [

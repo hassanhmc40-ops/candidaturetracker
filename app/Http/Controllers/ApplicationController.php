@@ -37,10 +37,11 @@ class ApplicationController extends Controller
             $query->where('priority', $request->priority);
         }
 
-        // Get applications ordered by most recent first
-        $applications = $query->orderBy('application_date', 'desc')
+        // Get applications ordered by most recent first (paginated)
+        $applications = $query->withCount('interviews')
+                             ->orderBy('application_date', 'desc')
                              ->orderBy('created_at', 'desc')
-                             ->get();
+                             ->paginate(15);
 
         // Get filter options for dropdowns
         $statusOptions = Application::getStatusOptions();

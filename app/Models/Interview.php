@@ -66,12 +66,12 @@ class Interview extends Model
     public function getTypeLabelAttribute()
     {
         return match($this->type) {
-            'telephone' => 'Téléphone',
-            'visioconference' => 'Visioconférence',
-            'technique' => 'Technique',
-            'rh' => 'RH',
-            'presentiel' => 'Présentiel',
-            'entretien_final' => 'Entretien final',
+            'telephone' => 'Phone',
+            'visioconference' => 'Video',
+            'technique' => 'Technical',
+            'rh' => 'HR',
+            'presentiel' => 'In Person',
+            'entretien_final' => 'Final Interview',
             default => $this->type,
         };
     }
@@ -88,10 +88,10 @@ class Interview extends Model
         }
 
         return match($this->result) {
-            'en_attente' => 'En attente',
-            'reussi' => 'Réussi',
-            'echoue' => 'Échoué',
-            'annule' => 'Annulé',
+            'en_attente' => 'Pending',
+            'reussi' => 'Passed',
+            'echoue' => 'Failed',
+            'annule' => 'Cancelled',
             default => $this->result,
         };
     }
@@ -211,12 +211,12 @@ class Interview extends Model
     public static function getTypeOptions()
     {
         return [
-            'telephone' => 'Téléphone',
-            'visioconference' => 'Visioconférence',
-            'technique' => 'Technique',
-            'rh' => 'RH',
-            'presentiel' => 'Présentiel',
-            'entretien_final' => 'Entretien final',
+            'telephone' => 'Phone',
+            'visioconference' => 'Video',
+            'technique' => 'Technical',
+            'rh' => 'HR',
+            'presentiel' => 'In Person',
+            'entretien_final' => 'Final Interview',
         ];
     }
 
@@ -228,10 +228,10 @@ class Interview extends Model
     public static function getResultOptions()
     {
         return [
-            'en_attente' => 'En attente',
-            'reussi' => 'Réussi',
-            'echoue' => 'Échoué',
-            'annule' => 'Annulé',
+            'en_attente' => 'Pending',
+            'reussi' => 'Passed',
+            'echoue' => 'Failed',
+            'annule' => 'Cancelled',
         ];
     }
 }
