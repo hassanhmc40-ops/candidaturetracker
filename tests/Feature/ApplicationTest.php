@@ -171,3 +171,65 @@ test('user sees only their own applications in list', function () {
     $response->assertSee('User1 Corp');
     $response->assertDontSee('User2 Corp');
 });
+
+test('unauthenticated user cannot create application', function () {
+    $response = $this->get(route('applications.create'));
+    $response->assertRedirect(route('login'));
+
+    $response = $this->post(route('applications.store'), [
+        'company_name' => 'Hacked Corp',
+        'job_title' => 'Hacker',
+        'status' => 'en_attente',
+        'priority' => 'haute',
+        'application_date' => now()->format('Y-m-d'),
+    ]);
+    $response->assertRedirect(route('login'));
+});
+
+test('unauthenticated user cannot edit application', function () {
+    $application = Application::factory()->create();
+
+    $response = $this->get(route('applications.edit', $application));
+    $response->assertRedirect(route('login'));
+
+    $response = $this->patch(route('applications.update', $application), [
+        'company_name' => 'Hacked Corp',
+        'job_title' => $application->job_title,
+        'status' => $application->status,
+        'priority' => $application->priority,
+        'application_date' => $application->application_date->format('Y-m-d'),
+    ]);
+    $response->assertRedirect(route('login'));
+});
+
+test('unauthenticated user cannot delete application', function () {
+    $application = Application::factory()->create();
+
+    $response = $this->delete(route('applications.destroy', $application));
+    $response->assertRedirect(route('login'));
+});
+
+test('application update fails with invalid data', function () {
+    $user = User::factory()->create();
+    $application = Application::factory()->create(['user_id' => $user->id]);
+
+    $response = $this->actingAs($user)->patch(route('applications.update', $application), [
+        'company_name' => '',
+        'job_title' => '',
+        'status' => 'invalid_status',
+        'priority' => 'invalid_priority',
+        'application_date' => 'not-a-date',
+    ]);
+
+    $response->assertSessionHasErrors(['company_name', 'job_title', 'status', 'priority', 'application_date']);
+});
+
+test('archived application returns 404 on show page', function () {
+    $user = User::factory()->create();
+    $application = Application::factory()->create(['user_id' => $user->id]);
+    $application->delete();
+
+    $response = $this->actingAs($user)->get(route('applications.show', $application));
+
+    $response->assertStatus(404);
+});
